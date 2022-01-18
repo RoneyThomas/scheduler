@@ -1,14 +1,14 @@
 import React from "react";
 import classNames from "classnames";
 
-import "components/InterviewerListItem.scss"
+import "components/InterviewerListItem.scss";
 
 export default function InterviewerListItem(props) {
-  console.log(props);
   const InterviewerListItemClass = classNames({
     "interviewers__item": !props.selected,
     "interviewers__item--selected": props.selected
   });
+  console.log(props);
   console.log(InterviewerListItemClass);
   return (
     <li className={InterviewerListItemClass} onClick={props.setInterviewer ? () => props.setInterviewer(props.id) : undefined}>
