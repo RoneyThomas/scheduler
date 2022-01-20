@@ -26,8 +26,8 @@ export default function Header(props) {
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
-          <Button danger onClick={props.onCancel}>Cancel</Button>
-          <Button confirm onClick={props.onSave}>Save</Button>
+          <Button danger onClick={() => props.onCancel(setStudent(""), setInterviewer(null))}>Cancel</Button>
+          <Button confirm onClick={() => props.onSave(student, interviewer)}>Save</Button>
         </section>
       </section>
     </main>
