@@ -4,13 +4,13 @@ import DayListItem from "components/DayListItem"
 export default function DayList(props) {
   return (
     <ul>
-      {props.days.map(day => (
+      {props.days.map(value => (
         <DayListItem
-          key={day.id}
-          name={day.name}
-          spots={day.spots}
-          selected={day.name === props.day}
-          setDay={props.setDay}
+          key={value.id}
+          name={value.name}
+          spots={value.spots}
+          selected={value.name === props.day}
+          setDay={props.onChange}
         />
       ))}
     </ul>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import Appointment from "components/Appointment";
 import DayList from "components/DayList";
 import "components/Application.scss";
 
@@ -36,7 +37,7 @@ export default function Application(props) {
           <DayList
             days={days}
             day={day}
-            setDay={setDay}
+            onChange={setDay}
           />
         </nav>
         <img
