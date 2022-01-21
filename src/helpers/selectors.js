@@ -21,3 +21,14 @@ export function getInterview(state, interview) {
   }
   return null;
 }
+
+export function getInterviewersForDay(state, day) {
+  let output = [];
+  const appointments = getAppointmentsForDay(state, day);
+  for (const appt of Object.values(appointments)) {
+    if (appt.interview !== null) {
+      output.push(state.interviewers[`${appt.interview.interviewer}`]);
+    }
+  }
+  return output;
+}
