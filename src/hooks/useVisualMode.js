@@ -13,16 +13,12 @@ export default function useVisualMode(initial) {
 
   function back() {
     if (history[history.length - 1] !== initial) {
-      console.log("Slice", history, history.slice(0, -1));
-      // history.pop();
-      setHistory(() => history.slice(0, -1));
-      console.log("History", history[history.length - 1])
-      setMode(() => history[history.length - 1]);
+      // This won't work becuase setting state is async.
       // setHistory(() => history.slice(0, -1));
-      // Promise.resolve()
-      //   .then(() => setHistory(() => history.slice(0, -1)))
-      //   .then(() => setMode(() => history[history.length - 1]))
-      // setHistory(() => history.slice(0, -1));
+      // setMode(() => history[history.length - 1]);
+      const newHistory = history.slice(0, -1);
+      setHistory(() => newHistory);
+      setMode(() => newHistory[newHistory.length - 1]);
     }
   }
 
