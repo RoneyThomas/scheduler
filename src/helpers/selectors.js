@@ -23,12 +23,13 @@ export function getInterview(state, interview) {
 }
 
 export function getInterviewersForDay(state, day) {
-  let output = [];
+  let output = new Set();
   const appointments = getAppointmentsForDay(state, day);
+  console.log(appointments)
   for (const appt of Object.values(appointments)) {
     if (appt.interview !== null) {
-      output.push(state.interviewers[`${appt.interview.interviewer}`]);
+      output.add(state.interviewers[`${appt.interview.interviewer}`]);
     }
   }
-  return output;
+  return Array.from(output);
 }
