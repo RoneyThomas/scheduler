@@ -31,15 +31,15 @@ export default function Appointment(props) {
     transition(SAVING);
     props.bookInterview(props.id, interview)
       .then(() => transition(SHOW))
-      .catch(err => transition(ERROR_SAVE));
+      .catch(error => transition(ERROR_SAVE, true));
   }
 
   const deleteItem = () => {
     transition(DELETING, true);
     props
-      .deleteInterview(props.id)
+      .cancelInterview(props.id)
       .then(() => transition(EMPTY))
-      .catch(err => transition(ERROR_DELETE, true));
+      .catch(error => transition(ERROR_DELETE, true));
   }
 
   useEffect(() => {
