@@ -17,13 +17,6 @@ export default function InterviewerList(props) {
       <h4 className="interviewers__header text--light">Interviewer</h4>
       <ul className="interviewers__list">
         {props.interviewers.map(interviewer => (
-          // <InterviewerListItem
-          //   key={interviewer.id}
-          //   name={interviewer.name}
-          //   avatar={interviewer.avatar}
-          //   setInterviewer={() => props.setInterviewer(interviewer.id)}
-          //   selected={props.interviewer ? props.interviewer === interviewer.id : undefined}
-          // />
           <InterviewerListItem
             key={interviewer.id}
             name={interviewer.name}
@@ -31,13 +24,6 @@ export default function InterviewerList(props) {
             selected={interviewer.id === props.value}
             setInterviewer={() => props.setInterviewer(interviewer.id)}
           />
-          //           <InterviewerListItem 
-          //   key={interviewer.id}
-          //   name={interviewer.name}
-          //   avatar={interviewer.avatar}
-          //   selected={interviewer.id === value}
-          //   setInterviewer={() => onChange(interviewer.id)}    
-          // />
         ))}
       </ul>
     </section>
