@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+console.log(process.env)
 const endpoints = {
-  "GET_DAYS": 'http://localhost:8001/api/days',
-  "GET_APPOINTMENTS": 'http://localhost:8001/api/appointments',
-  "GET_INTERVIEWERS": 'http://localhost:8001/api/interviewers',
-  "PUT_APPOINTMENTS": 'http://localhost:8001/api/appointments',
-  "DEL_APPOINTMENTS": 'http://localhost:8001/api/appointments'
+  "GET_DAYS": `${process.env.REACT_APP_API_SERVER}/api/days`,
+  "GET_APPOINTMENTS": `${process.env.REACT_APP_API_SERVER}/api/appointments`,
+  "GET_INTERVIEWERS": `${process.env.REACT_APP_API_SERVER}/api/interviewers`,
+  "PUT_APPOINTMENTS": `${process.env.REACT_APP_API_SERVER}/api/appointments`,
+  "DEL_APPOINTMENTS": `${process.env.REACT_APP_API_SERVER}/api/appointments`
 }
 
 
