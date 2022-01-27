@@ -31,5 +31,5 @@ npm run storybook
 
 ## Screenshots
 
-![]()
-![]()
+![](https://github.com/RoneyThomas/scheduler/blob/master/docs/1.png?raw=true)
+![](https://github.com/RoneyThomas/scheduler/blob/master/docs/2.png?raw=true)
