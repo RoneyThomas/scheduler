@@ -1,12 +1,6 @@
 import React from "react";
-import classNames from "classnames";
-// import "components/Appointment/styles.scss";
 
 export default function Show(props) {
-  const showClass = classNames("appointment", {
-    "button--confirm": props.confirm,
-    "button--danger": props.danger
-  });
   console.log(props);
   return (
     <main className="appointment__card appointment__card--show">
