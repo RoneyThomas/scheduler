@@ -8,7 +8,7 @@ export default function InterviewerList(props) {
   // to validate component types
   InterviewerList.propTypes = {
     interviewers: PropTypes.array.isRequired,
-    value: PropTypes.number,
+    value: PropTypes.object,
     setInterviewer: PropTypes.func.isRequired
   };
 

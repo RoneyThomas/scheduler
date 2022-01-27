@@ -22,9 +22,9 @@ export default function useVisualMode(initial) {
     }
   }
 
-  useEffect(() => {
-    console.log(mode, history)
-  }, [mode, history])
+  // useEffect(() => {
+  //   console.log(mode, history)
+  // }, [mode, history])
 
   return { mode, transition, back };
 }
