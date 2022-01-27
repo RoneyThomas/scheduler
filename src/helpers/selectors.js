@@ -23,13 +23,17 @@ export function getInterview(state, interview) {
 }
 
 export function getInterviewersForDay(state, day) {
-  let output = new Set();
-  const appointments = getAppointmentsForDay(state, day);
-  console.log(appointments)
-  for (const appt of Object.values(appointments)) {
-    if (appt.interview !== null) {
-      output.add(state.interviewers[`${appt.interview.interviewer}`]);
-    }
+  //retrieves available interviewers for that day
+  const filteredDays = state.days.filter(stateDay => day === stateDay.name);
+  if (!(Array.isArray(filteredDays) && day && filteredDays.length >= 1)) {
+    return [];
   }
-  return Array.from(output);
+  // interviewers for given day
+  const { interviewers } = filteredDays[0];
+  const interviewerList = [];
+
+  for (const interviewer of interviewers) {
+    interviewerList.push(state.interviewers[interviewer]);
+  }
+  return interviewerList;
 }
