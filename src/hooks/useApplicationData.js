@@ -2,12 +2,17 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 console.log(process.env)
+if (process.env.REACT_APP_API_BASE_URL) {
+  axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
+} else {
+  axios.defaults.baseURL = process.env.REACT_APP_API_SERVER;
+}
 const endpoints = {
-  "GET_DAYS": `${process.env.REACT_APP_API_SERVER}/api/days`,
-  "GET_APPOINTMENTS": `${process.env.REACT_APP_API_SERVER}/api/appointments`,
-  "GET_INTERVIEWERS": `${process.env.REACT_APP_API_SERVER}/api/interviewers`,
-  "PUT_APPOINTMENTS": `${process.env.REACT_APP_API_SERVER}/api/appointments`,
-  "DEL_APPOINTMENTS": `${process.env.REACT_APP_API_SERVER}/api/appointments`
+  "GET_DAYS": '/api/days',
+  "GET_APPOINTMENTS": '/api/appointments',
+  "GET_INTERVIEWERS": '/api/interviewers',
+  "PUT_APPOINTMENTS": '/api/appointments',
+  "DEL_APPOINTMENTS": '/api/appointments'
 }
 
 

@@ -51,5 +51,8 @@
       "<rootDir>/node_modules/",
       "<rootDir>/.git/"
     ]
+  },
+  "engines": {
+    "node": "15.14.0"
   }
 }
