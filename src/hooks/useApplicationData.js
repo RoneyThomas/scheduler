@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import axios from "axios";
 
 const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
@@ -16,15 +16,57 @@ const endpoints = {
   "DEL_APPOINTMENTS": '/api/appointments'
 }
 
+const SET_DAY = "SET_DAY";
+const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
+const SET_INTERVIEW = "SET_INTERVIEW";
+const SET_DAYS = "SET_DAYS";
+
+function reducer(state, action) {
+  switch (action.type) {
+    case SET_DAY:
+      return { ...state, day: action.payload }
+    case SET_APPLICATION_DATA:
+      console.log(action);
+      return {
+        ...state,
+        days: action.payload.days,
+        appointments: action.payload.appointments,
+        interviewers: action.payload.interviewers
+      }
+    case SET_INTERVIEW:
+      return {
+        ...state,
+        appointments: action.payload
+      }
+    case SET_DAYS:
+      console.log("Action", action);
+      return {
+        ...state,
+        days: action.payload
+      }
+    default:
+      throw new Error(
+        `Tried to reduce with unsupported action type: ${action.type}`
+      );
+  }
+}
+
 
 export const useApplicationData = () => {
-  const [state, setState] = useState({
+  // const [state, setState] = useState({
+  //   day: "Monday",
+  //   days: [],
+  //   appointments: {},
+  //   interviewers: {}
+  // });
+  const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
     days: [],
     appointments: {},
     interviewers: {}
   });
-  const setDay = day => setState({ ...state, day });
+  // const setDay = day => setState({ ...state, day });
+  const setDay = day => dispatch({ type: 'SET_DAY', payload: day });
 
   useEffect(() => {
     socket.onopen = function() {
@@ -55,7 +97,14 @@ export const useApplicationData = () => {
       axios.get(endpoints.GET_APPOINTMENTS),
       axios.get(endpoints.GET_INTERVIEWERS)
     ]).then((response) => {
-      setState(prev => ({ ...prev, days: response[0].data, appointments: response[1].data, interviewers: response[2].data }));
+      // setState(prev => ({ ...prev, days: response[0].data, appointments: response[1].data, interviewers: response[2].data }));
+      dispatch({
+        type: 'SET_APPLICATION_DATA', payload: {
+          days: response[0].data,
+          appointments: response[1].data,
+          interviewers: response[2].data
+        }
+      });
     });
 
   }, []);
@@ -70,13 +119,15 @@ export const useApplicationData = () => {
       [id]: appointment
     };
     return axios.put(`${endpoints.PUT_APPOINTMENTS}/${id}`, appointment).then(() => {
-      setState(prev => ({ ...prev, appointments }));
+      // setState(prev => ({ ...prev, appointments }));
+      dispatch({ type: 'SET_INTERVIEW', payload: appointments });
       console.log(state.days);
       Promise.all([axios.get(endpoints.GET_DAYS)]).then(([days]) => {
-        setState(prev => ({
-          ...prev,
-          days: days.data
-        }));
+        // setState(prev => ({
+        //   ...prev,
+        //   days: days.data
+        // }));
+        dispatch({ type: 'SET_DAYS', payload: days.data });
         console.log(days.data);
       });
     });
@@ -92,12 +143,14 @@ export const useApplicationData = () => {
       [id]: appointment
     };
     return axios.delete(`${endpoints.DEL_APPOINTMENTS}/${id}`, appointment).then(() => {
-      setState(prev => ({ ...prev, appointments }));
+      // setState(prev => ({ ...prev, appointments }));
+      dispatch({ type: 'SET_INTERVIEW', payload: appointments });
       Promise.all([axios.get(endpoints.GET_DAYS)]).then(([days]) => {
-        setState(prev => ({
-          ...prev,
-          days: days.data
-        }));
+        // setState(prev => ({
+        //   ...prev,
+        //   days: days.data
+        // }));
+        dispatch({ type: 'SET_DAYS', payload: days.data });
       });
     });
   }
@@ -124,11 +177,13 @@ export const useApplicationData = () => {
       let days = state.days;
       days[dayIndex] = { ...state.days[dayIndex], spots: state.days[dayIndex].spots + 1 };
       console.log("Days", days);
-      setState(prev => ({
-        ...prev,
-        days,
-        appointments
-      }));
+      // setState(prev => ({
+      //   ...prev,
+      //   days,
+      //   appointments
+      // }));
+      dispatch({ type: 'SET_DAYS', payload: days });
+      dispatch({ type: 'SET_INTERVIEW', payload: appointments });
       console.log(state);
     } else {
       const appointment = {
@@ -144,11 +199,13 @@ export const useApplicationData = () => {
       let days = state.days;
       days[dayIndex] = { ...state.days[dayIndex], spots: state.days[dayIndex].spots - 1 };
       console.log("Days", days);
-      setState(prev => ({
-        ...prev,
-        days,
-        appointments
-      }));
+      // setState(prev => ({
+      //   ...prev,
+      //   days,
+      //   appointments
+      // }));
+      dispatch({ type: 'SET_DAYS', payload: days });
+      dispatch({ type: 'SET_INTERVIEW', payload: appointments });
       console.log(state);
     }
   }
