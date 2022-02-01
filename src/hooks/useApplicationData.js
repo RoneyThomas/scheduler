@@ -71,11 +71,13 @@ export const useApplicationData = () => {
     };
     return axios.put(`${endpoints.PUT_APPOINTMENTS}/${id}`, appointment).then(() => {
       setState(prev => ({ ...prev, appointments }));
+      console.log(state.days);
       Promise.all([axios.get(endpoints.GET_DAYS)]).then(([days]) => {
         setState(prev => ({
           ...prev,
           days: days.data
         }));
+        console.log(days.data);
       });
     });
   }
@@ -101,13 +103,54 @@ export const useApplicationData = () => {
   }
 
   const updateAppointment = (id, interview) => {
-    Promise.all([
-      axios.get(endpoints.GET_DAYS),
-      axios.get(endpoints.GET_APPOINTMENTS)
-    ]).then((response) => {
-      console.log(response);
-      setState(prev => ({ ...prev, days: response[0].data, appointments: response[1].data }));
-    });
+    // Promise.all([
+    //   axios.get(endpoints.GET_DAYS),
+    //   axios.get(endpoints.GET_APPOINTMENTS)
+    // ]).then((response) => {
+    //   console.log(response);
+    //   setState(prev => ({ ...prev, days: response[0].data, appointments: response[1].data }));
+    // });
+    console.log(state);
+    if (!interview) {
+      const appointment = {
+        ...state.appointments[id],
+        interview: null
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      const dayIndex = state.days.findIndex(day => day.name === state.day);
+      let days = state.days;
+      days[dayIndex] = { ...state.days[dayIndex], spots: state.days[dayIndex].spots + 1 };
+      console.log("Days", days);
+      setState(prev => ({
+        ...prev,
+        days,
+        appointments
+      }));
+      console.log(state);
+    } else {
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
+
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+      const dayIndex = state.days.findIndex(day => day.name === state.day);
+      let days = state.days;
+      days[dayIndex] = { ...state.days[dayIndex], spots: state.days[dayIndex].spots - 1 };
+      console.log("Days", days);
+      setState(prev => ({
+        ...prev,
+        days,
+        appointments
+      }));
+      console.log(state);
+    }
   }
 
   return { state, setDay, bookInterview, cancelInterview }
