@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import axios from "axios";
 
 const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
